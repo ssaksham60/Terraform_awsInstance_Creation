@@ -1,0 +1,54 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 6.0"
+    }
+  }
+}
+
+provider "aws" {
+  region     = "ap-south-1"
+  access_key = "accessKey"
+  secret_key = "secretKey"
+}
+resource "aws_instance" "aws_instance" {
+  ami           = "ami-0f559c3642608c138"
+  instance_type = "t3.micro"
+
+  tags = {
+    Name = "HelloWorld"
+  }
+}
+
+resource "aws_vpc" "aws_instance_vpc" {
+  cidr_block = "10.0.0.0/16"
+}
+resource "aws_security_group" "aws_sg" {
+  name        = "web-security-group"
+  description = "Allow HTTP and SSH"
+  vpc_id      = aws_vpc.aws_instance_vpc.id
+
+  ingress {
+    description = "Allow HTTP"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+
+  ingress {
+    description = "Allow SSH"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+}
