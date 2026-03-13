@@ -1,24 +1,17 @@
 1️⃣ Scenario: Deploy a Web Server on AWS
 
-Requirement:
-Your company wants a simple web server running in AWS.
+Requirement: company wants a simple web server running in AWS.
 
 Task:
 Create an EC2 instance
 Use Amazon Linux / Ubuntu AMI
-
 Instance type: t2.micro
-
 Allow HTTP (80) and SSH (22) access
-
 Use Terraform variables for region and instance type
 
 Practical Tasks
 
 Write provider.tf
-
 Create aws_instance
-
 Create security_group
-
 Use terraform init, plan, apply
